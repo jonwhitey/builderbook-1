@@ -3,8 +3,14 @@ import PropTypes from 'prop-types';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
+import NProgress from 'nprogress';
+import Router from 'next/router';
 import getContext from './context';
 import Header from '../components/Header';
+
+Router.onRouteChangeStart = () => NProgress.start();
+Router.onRouteChangeComplete = () => NProgress.done();
+Router.onRouteChangeError = () => NProgress.done();
 
 function withLayout(BaseComponent) {
   class App extends React.Component {

@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const mongoSessionStore = require('connect-mongo');
 
-const User = require('./models/User');
+const auth = require('./google.js');
 
 require('dotenv').config();
 
@@ -53,12 +53,7 @@ app.prepare().then(() => {
 
   server.use(session(sess));
 
-  // this is testing code, remove later
-  server.get('/', async (req, res) => {
-    req.session.foo = 'bar';
-    const user = await User.findOne({ slug: 'team-builder-book' });
-    app.render(req, res, '/', { user });
-  });
+  auth({ server, ROOT_URL });
 
   server.get('*', (req, res) => handle(req, res));
 
